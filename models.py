@@ -6,7 +6,7 @@ from sqlalchemy.sql.sqltypes import DateTime
 from flask_sqlalchemy import SQLAlchemy
 
 
-DB_PATH = os.environ('DATABASE_URL')
+DB_PATH = os.environ['DATABASE_URL']
 # DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
 # DB_USER = os.getenv('DB_USER', 'postgres')
 # DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
