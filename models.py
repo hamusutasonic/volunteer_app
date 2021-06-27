@@ -7,6 +7,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 DB_PATH = os.environ['DATABASE_URL']
+
+#fix heroku bug
+#https://stackoverflow.com/questions/66690321/flask-and-heroku-sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy
+DB_PATH = DB_PATH.replace("postgres://", "postgresql://", 1) 
+
 # DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
 # DB_USER = os.getenv('DB_USER', 'postgres')
 # DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
