@@ -5,18 +5,22 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, ARRAY, Che
 from sqlalchemy.sql.sqltypes import DateTime
 from flask_sqlalchemy import SQLAlchemy
 
+if os.getenv('FLASK_ENV', None) == 'development':
+    DB_HOST = os.environ['DB_HOST']
+    DB_USER = os.environ['DB_USER']
+    DB_PASSWORD = os.environ['DB_PASSWORD']
+    DB_NAME = os.environ['DB_NAME']
+    # DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
+    # DB_USER = os.getenv('DB_USER', 'postgres')
+    # DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
+    # DB_NAME = os.getenv('DB_NAME', 'volunteer_app')  
+    DB_PATH = 'postgresql+psycopg2://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
+else:
+    DB_PATH = os.environ['DATABASE_URL']
+    #fix heroku bug
+    #https://stackoverflow.com/questions/66690321/flask-and-heroku-sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy
+    DB_PATH = DB_PATH.replace("postgres://", "postgresql://", 1) 
 
-DB_PATH = os.environ['DATABASE_URL']
-
-#fix heroku bug
-#https://stackoverflow.com/questions/66690321/flask-and-heroku-sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy
-DB_PATH = DB_PATH.replace("postgres://", "postgresql://", 1) 
-
-# DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
-# DB_USER = os.getenv('DB_USER', 'postgres')
-# DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
-# DB_NAME = os.getenv('DB_NAME', 'volunteer_app')  
-# DB_PATH = 'postgresql+psycopg2://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
 
 def format_datetime(dt):
     """Ensure datetime objects are formatted consistently 

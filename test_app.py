@@ -11,12 +11,11 @@ from flask import Flask
 from app import app
 from models import setup_db, User, Organisation, Event
 from fixtures import reset_db_with_fixtures
-# import auth
 
-DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
-DB_USER = os.getenv('DB_USER', 'postgres')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
-DB_NAME = os.getenv('DB_NAME', 'volunteer_app')  
+DB_HOST = os.environ['DB_HOST']
+DB_USER = os.environ['DB_USER']
+DB_PASSWORD = os.environ['DB_PASSWORD']
+DB_NAME = os.environ['DB_NAME']
 DB_PATH = 'postgresql+psycopg2://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
 
 db = setup_db(app,  database_path=DB_PATH)
