@@ -326,3 +326,20 @@ With postgres database running, run `pytest`
 
 ## Live Hosting
 API is hosted live here: https://frozen-beach-49034.herokuapp.com/
+
+Two test accounts are made available to test the endpoints
+1. test organisation
+    - login email: test_org_01@test.com
+    - password: p@ssw0rd
+    - organisation_id: 1
+2. test volunteer
+    - login email: test_user_01@test.com
+    - password: p@ssword
+    - user_id: 1
+
+#### To test protected endpoints
+- Click the login button at https://frozen-beach-49034.herokuapp.com/ to login to 
+the test accounts and copy the access_token displayed on the screen 
+- Pass `Authorization: 'Bearer {ACCESS_TOKEN}` header along with the endpoint request
+for protected endpoints
+ 
