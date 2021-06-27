@@ -1,8 +1,7 @@
-from auth import requires_auth
 import os
 from datetime import datetime
 
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -10,13 +9,52 @@ from flask_migrate import Migrate
 from models import setup_db, User, Organisation, Event
 from auth import AuthError, requires_auth
 
-
 app = Flask(__name__)
 db = setup_db(app)
 
 CORS(app)
 
 migrate = Migrate(app, db)
+
+AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
+API_AUDIENCE = os.environ['API_AUDIENCE']
+AUTH0_CLIENT_ID = os.environ['AUTH0_CLIENT_ID']
+
+if os.getenv('FLASK_ENV', None) == 'development':
+    DOMAIN = "http://localhost:5000"
+else:
+    DOMAIN = "https://frozen-beach-49034.herokuapp.com"
+
+#----------------------------------------------------------------------------#
+# Routes to get jwt token
+#----------------------------------------------------------------------------#
+@app.route('/')
+def index():
+    """Render a button to direct to Auth0 login
+    """
+    authorize_link = f"https://{AUTH0_DOMAIN}/authorize?" + \
+        f"audience={API_AUDIENCE}" + \
+        "&response_type=token" + \
+        f"&client_id={AUTH0_CLIENT_ID}" + \
+        f"&redirect_uri={DOMAIN}/login-results"
+
+    return render_template(
+        'index.html',
+        authorize_link=authorize_link
+    )
+
+@app.route('/login-results')
+def login_results():
+    """Print jwt token after successfully login to page
+    """
+    logout_link = f"https://{AUTH0_DOMAIN}/v2/logout?" + \
+        f"client_id={AUTH0_CLIENT_ID}" + \
+        f"&returnTo={DOMAIN}"
+        
+    return render_template(
+        'login-results.html',
+        logout_link = logout_link
+    )
 
 #----------------------------------------------------------------------------#
 # Api Endpoints - Events

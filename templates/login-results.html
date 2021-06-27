@@ -1,0 +1,64 @@
+<!-- Example for AJAX -->
+<html>
+    <head>
+        <title>Volunteer App Login</title>
+        <style>
+            #display {
+                padding: 20px;
+                margin-top: 20px;
+            }
+            p {
+                margin-bottom: 20px;
+            }
+            span {
+                display: inline-block;
+                vertical-align: top;
+                word-wrap: break-word;
+                box-sizing: border-box;
+            }
+            span.key {
+                width: 15%;
+            }
+            span.value {
+                width: 85%;
+                padding-left: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="display">
+        </div>
+        <a href="{{logout_link}}">
+            <button>Logout</button>
+         </a>
+        <script>
+            function docReady(fn) {
+                // see if DOM is already available
+                if (document.readyState === "complete" || document.readyState === "interactive") {
+                    // call on next available tick
+                    setTimeout(fn, 1);
+                } else {
+                    document.addEventListener("DOMContentLoaded", fn);
+                }
+            }    
+            function splitHash(hash) {
+                params = [] 
+                hash.split("&").forEach(function(value, idx ){
+                    params.push(value.split("="))
+                });
+                return params
+            }
+            docReady(function() {
+                if(window.location.hash) {
+                    var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+                    div = document.getElementById('display');
+                    splitHash(hash).forEach(function(value, idx){
+                        const p = document.createElement("p");
+                        p.innerHTML = "<span class='key'>" + value[0] + "</span><span class='value'>" + value[1] + "</span>";
+                        div.appendChild(p);
+                    })
+                }
+            });
+        </script>
+    </body>
+</html>
