@@ -5,6 +5,7 @@ from datetime import datetime
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 from models import setup_db, User, Organisation, Event
 from auth import AuthError, requires_auth
@@ -12,8 +13,10 @@ from auth import AuthError, requires_auth
 
 app = Flask(__name__)
 db = setup_db(app)
-CORS(app) 
 
+CORS(app)
+
+migrate = Migrate(app, db)
 
 #----------------------------------------------------------------------------#
 # Api Endpoints - Events

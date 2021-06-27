@@ -5,11 +5,13 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, ARRAY, Che
 from sqlalchemy.sql.sqltypes import DateTime
 from flask_sqlalchemy import SQLAlchemy
 
-DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
-DB_USER = os.getenv('DB_USER', 'postgres')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
-DB_NAME = os.getenv('DB_NAME', 'volunteer_app')  
-DB_PATH = 'postgresql+psycopg2://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
+
+DB_PATH = os.environ('DATABASE_URL')
+# DB_HOST = os.getenv('DB_HOST', '0.0.0.0:5433')
+# DB_USER = os.getenv('DB_USER', 'postgres')
+# DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')  
+# DB_NAME = os.getenv('DB_NAME', 'volunteer_app')  
+# DB_PATH = 'postgresql+psycopg2://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
 
 def format_datetime(dt):
     """Ensure datetime objects are formatted consistently 
@@ -146,6 +148,4 @@ class User(ModelMixin, db.Model):
     join_date = Column(DateTime)
     skills = Column(ARRAY(String))
 
-    #interests?
-    #skills?
 
